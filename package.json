@@ -8,7 +8,20 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "lint": "tslint src/**/*.ts{,x} __tests__/**/*.ts{,x}",
+    "prepublishOnly": "npm run build",
+    "test": "jest"
+  },
+  "jest": {
+    "moduleFileExtensions": [ "ts", "js" ],
+    "moduleDirectories": [ "node_modules", "src" ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
+    },
+    "testMatch": [
+      "**/__tests__/**/*.spec.ts"
+    ]
   },
   "repository": {
     "type": "git",
