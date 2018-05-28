@@ -26,5 +26,10 @@
   "bugs": {
     "url": "https://github.com/Yengas/iett-scraper/issues"
   },
-  "homepage": "https://github.com/Yengas/iett-scraper#readme"
+  "homepage": "https://github.com/Yengas/iett-scraper#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^10.1.3",
+    "typescript": "^2.8.3"
+  }
 }
