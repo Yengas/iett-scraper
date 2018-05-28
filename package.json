@@ -1,0 +1,30 @@
+{
+  "name": "iett-scraper",
+  "version": "1.0.0",
+  "description": "Scraping transportation data from Istanbul Electricity, Tramway and Tunnel General Management website.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yengas/iett-scraper.git"
+  },
+  "keywords": [
+    "istanbul",
+    "transportation",
+    "iett",
+    "scrape",
+    "typescript"
+  ],
+  "author": "Yengas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yengas/iett-scraper/issues"
+  },
+  "homepage": "https://github.com/Yengas/iett-scraper#readme"
+}
