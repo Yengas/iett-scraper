@@ -1,6 +1,6 @@
 export enum RouteDirection {
-    OUTBOUND = 0,
-    INBOUND = 1,
+    OUTBOUND = '0',
+    INBOUND = '1',
 }
 
 export function getDirectionCode(direction: RouteDirection){

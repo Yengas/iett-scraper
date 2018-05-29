@@ -28,7 +28,7 @@ export interface StopTimesResult {
     routeName: string,
     firstStop: string,
     notes: string,
-    times: { [C in keyof CalendarDayGroups]: Array<StopTime> },
+    times: { [C in CalendarDayGroups]: Array<StopTime> },
 }
 
 export function parseTime(timeRaw: string): { time: string, extra?: string } {
