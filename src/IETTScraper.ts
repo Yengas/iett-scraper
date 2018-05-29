@@ -1,5 +1,6 @@
 import { load } from 'cheerio';
 import fetch from 'node-fetch';
+import RouteListingParser, { RouteListingItem } from './RouteListingParser';
 
 export interface IETTScraperOptions {
     host?: string,
@@ -16,8 +17,6 @@ const defaultOptions: IETTScraperOptions = {
             + "(KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36",
     }
 };
-
-
 
 export class IETTScraper {
     constructor(
@@ -41,16 +40,12 @@ export class IETTScraper {
         return `${scheme}://${host}${path}`;
     }
 
-    async getRoutes(): Promise<Array<String>> {
+    async getRoutes(): Promise<Array<RouteListingItem>> {
         const $ = await this.getDocument(
             this.buildURL('/tr/main/hatlar')
         );
 
-        return $(".DetailLi").toArray().map((elem) => {
-            const doc = $(elem);
-
-            return doc.find("span.line-name1").first().text().trim();
-        });
+        return RouteListingParser($);
     }
 }
 
