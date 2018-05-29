@@ -1,6 +1,19 @@
 import { load } from 'cheerio';
 import fetch from 'node-fetch';
 import RouteListingParser, { RouteListingItem } from './RouteListingParser';
+import StopTimesParser, {StopTimesResult} from './StopTimesParser';
+import { buildQueryParameters } from "./utils";
+
+export enum RouteDirection {
+    OUTBOUND = 0,
+    INBOUND = 1,
+}
+
+function getDirectionCode(direction: RouteDirection){
+    if(!Object.values(RouteDirection).includes(direction))
+        throw new Error('route direction is not valid.');
+    return (['G', 'D'])[direction];
+}
 
 export interface IETTScraperOptions {
     host?: string,
@@ -27,12 +40,30 @@ export class IETTScraper {
     }
 
     private async getDocument(url: string): Promise<CheerioStatic> {
-        const response = await fetch(url, {
+        const response = await fetch(
+            url,
+            {
             method: 'GET',
             headers: this.options.headers,
         });
 
         return load(await response.text());
+    }
+
+    private async getJSON(url: string): Promise<any> {
+        const response = await fetch(
+            url,
+            {
+                method: 'GET',
+                headers: Object.assign(
+                    {},
+                    this.options.headers,
+                    { 'Content-Type': 'application/json' },
+                )
+            }
+        );
+
+        return response.json();
     }
 
     private buildURL(path: string){
@@ -46,6 +77,24 @@ export class IETTScraper {
         );
 
         return RouteListingParser($);
+    }
+
+    async getStopTimes(
+        routeNumber: string,
+        stopCode: string,
+        direction: RouteDirection,
+    ): Promise<Array<StopTimesResult>> {
+        const params = buildQueryParameters({
+            hat: routeNumber,
+            durak: stopCode,
+            yon: getDirectionCode(direction)
+        });
+
+        const result = await this.getJSON(
+            this.buildURL(`/tr/main/tahminiGecisSaatleri/?format=json&${params}`)
+        );
+
+        return StopTimesParser(result);
     }
 }
 
