@@ -1,7 +1,8 @@
 import { load } from 'cheerio';
 import fetch from 'node-fetch';
 import RouteListingParser, { RouteListingItem } from './RouteListingParser';
-import StopTimesParser, {StopTimesResult} from './StopTimesParser';
+import StopTimesParser, { StopTimesResult } from './StopTimesParser';
+import RouteDetailParser, { RouteDetailResult } from './RouteDetailParser';
 import { buildQueryParameters } from "./utils";
 import { getDirectionCode, RouteDirection } from "./RouteDirection";
 
@@ -67,6 +68,14 @@ export class IETTScraper {
         );
 
         return RouteListingParser($);
+    }
+
+    async getRouteDetails(routeNumber: string): Promise<RouteDetailResult> {
+        const $ = await this.getDocument(
+            this.buildURL(`/tr/main/hatlar/${encodeURIComponent(routeNumber)}`)
+        );
+
+        return RouteDetailParser($);
     }
 
     async getStopTimes(
