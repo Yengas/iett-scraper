@@ -3,17 +3,7 @@ import fetch from 'node-fetch';
 import RouteListingParser, { RouteListingItem } from './RouteListingParser';
 import StopTimesParser, {StopTimesResult} from './StopTimesParser';
 import { buildQueryParameters } from "./utils";
-
-export enum RouteDirection {
-    OUTBOUND = 0,
-    INBOUND = 1,
-}
-
-function getDirectionCode(direction: RouteDirection){
-    if(!Object.values(RouteDirection).includes(direction))
-        throw new Error('route direction is not valid.');
-    return (['G', 'D'])[direction];
-}
+import { getDirectionCode, RouteDirection } from "./RouteDirection";
 
 export interface IETTScraperOptions {
     host?: string,
